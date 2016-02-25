@@ -1,0 +1,5 @@
+message FishSim {
+    required int32 fish_id = 1;
+    required float pos_x = 2;
+    required float pos_y = 3;
+}
