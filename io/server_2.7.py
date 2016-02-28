@@ -16,13 +16,14 @@ serversocket.listen(5)
 while 1:
 	#accept connections from outside
 	(clientsocket, address) = serversocket.accept()
-	serversocket.setblocking(False)
+	print 'Client Connected'
+	#serversocket.setblocking(False)
 	#now do something with the clientsocket
     #inthis case, we'll pretend this is a threaded server
-    	print 'Client Connected'
+    	
 	
-	data = clientsocket.recv(1024)
+	data = clientsocket.recv(2048)
 	if not data: break
 	print data
-	clientsocket.close()
+	clientsocket.close()	
 
