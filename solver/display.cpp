@@ -280,7 +280,7 @@ void DrawGLScene()
         for(int i =0; i< boids.size() ; i++)
         {
 
-        	FishSim fish;
+        	/*FishSim fish;
     		// Fish 0 is the path information
     		fish.set_fish_id(i);
     		fish.set_pos_x(boids[i].loc.x);
@@ -290,7 +290,7 @@ void DrawGLScene()
     		    fd.write(&sz, sizeof(char));
     		    fish.SerializeToOstream(&fd);
     		}
-        	
+        	*/
 
 
 

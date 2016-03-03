@@ -11,7 +11,6 @@
 #include "Vector.h"
 #include "PathFinder.h"
 #include "Flocking.h"
-#include "fish-sim.pb.h"
 #include "MapLoader.h"
 
 
