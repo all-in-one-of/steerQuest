@@ -21,6 +21,8 @@ Simulation::loadScene(char* mapFile)
     y_bound = ml.gety_boundary();
 
     printf("The grid is %d*%d\n", x_bound, y_bound);
+    printf("Start Position %f*%f\n", startPosition.x, startPosition.y);
+    printf("End Position %f*%f\n", endPosition.x, endPosition.y);
 
 	bool* passData = new bool[x_bound * y_bound];
 

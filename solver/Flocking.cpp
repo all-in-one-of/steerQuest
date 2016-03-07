@@ -47,8 +47,8 @@ int Flocking::update()
         }
 
 
-        boids[i].seek(destinationSeek,destWeight); //seek the Goal !@#
-	//boids[i].seek(destination,destWeight); //seek the Goal !@#
+        //boids[i].seek(destinationSeek,destWeight); //seek the Goal !@#
+	       boids[i].seek(destination,destWeight); //seek the Goal !@#
         boids[i].update(boids);
 
         if(boids[i].reachedDestination)

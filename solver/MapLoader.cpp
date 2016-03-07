@@ -34,6 +34,7 @@ MapLoader::loadVDBMap(char* filename)
     string endy = grid->metaValue<string>("endy");
     string end_radius = grid->metaValue<string>("end_radius");
 
+    //cout<<boundx<<" "<<boundy<<" "<<startx<<" "<<start_radius<<" "<<endx<<" "<<endy<<" "<<end_radius<<"EOL\n";
 
     x_boundary = stoi(boundx);
     y_boundary = stoi(boundy);

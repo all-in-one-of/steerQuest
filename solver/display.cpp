@@ -57,7 +57,7 @@ int simMain(int argc, char* argv[])
 			       <destination_weight>									\
 			       <random_seed>										\
 			       														\
-			       [pipe_file] \n", argv[0]);
+			       \n", argv[0]);
         exit(0);
         return 1;
     }

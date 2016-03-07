@@ -9,7 +9,7 @@ int main(int argc,char** argv)
     // If the argument isn't give, display the helpful message
     if(argc == 1) {
         printf("Usage: %s <vdb>\n", argv[0]);
-        return;
+        return 0;
     }
     char* filename = argv[1];
 
@@ -31,8 +31,8 @@ int main(int argc,char** argv)
     //cast the generic grid pointer to a FloatGrid pointer.
     openvdb::FloatGrid::Ptr grid = openvdb::gridPtrCast<openvdb::FloatGrid>(baseGrid);
 
-    int x_bound = 100;
-    int z_bound = 100;
+    int x_bound = 200;
+    int z_bound = 200;
     int y_bound = 1;
 
     float grid_array[x_bound][z_bound];
