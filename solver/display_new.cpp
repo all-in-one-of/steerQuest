@@ -23,9 +23,9 @@
 /* The number of our GLUT window */
 int window;
 
+Flocking* flockDisplay; 
 Scene* sceneDisplay;
-ofstream positionFile;
-positionFile.open ("Position.txt");
+std::ofstream positionFile;
 int count = 0;
 //std::vector<DispFish> display_fishes;
 std::fstream fd;
@@ -240,6 +240,8 @@ void DrawGLScene()
 
     glTranslated(-100,-100,0);  //Reposition Camera
     float zDepth = -250;
+    double cosTheta;
+    double sinTheta;
 
 
     if(sceneDisplay)
@@ -303,8 +305,8 @@ void DrawGLScene()
             glPushMatrix();
             if(!boids[i].reachedDestination && !count == 10)
             {
-                cosTheta = cos(boids[i].orient)
-                sinTheta = sin(boids[i].orient)
+                cosTheta = cos(boids[i].orient);
+                sinTheta = sin(boids[i].orient);
                 if(boids[i].hitObstacle)
                 {
                     drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+1,boids[i].orient,1,0,0);
@@ -321,7 +323,6 @@ void DrawGLScene()
             {
                     drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+1,boids[i].orient,0,1,0);
                     positionFile << count << " " << i << " " << boids[i].loc.x << " " << boids[i].loc.y<< " " << cosTheta << " " << -sinTheta << " " << '0' << sinTheta << " " << cosTheta << '0' << " " << '0' << '0' << '1' << " false \n"; //hit = true
-                    myfile.close();
             }
 
             glPopMatrix();
@@ -363,6 +364,7 @@ int main(int argc, char **argv)
 
     flockDisplay=NULL;
     sceneDisplay=NULL;
+    positionFile.open("Position.txt");
 
     std::thread simThread(simMain,argc,argv); // Start the sim thread
 
