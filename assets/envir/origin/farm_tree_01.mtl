@@ -1,0 +1,14 @@
+# Blender MTL File: 'farm_tree_01.blend'
+# Material Count: 1
+
+newmtl farm_tree
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 1
+map_Kd textures\\farm_trees_rocks_flowers_D.tga
+map_d textures\\farm_trees_rocks_flowers_A.jpg
