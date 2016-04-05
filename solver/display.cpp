@@ -37,6 +37,7 @@ struct hostent *server;
 char buffer[256];
 char *message;
 int count = 0;
+int gl;
 //std::vector<DispFish> display_fishes;
 std::fstream fd;
 bool bWriteToPipe=false;
@@ -79,7 +80,8 @@ int simMain(int argc, char* argv[])
 			<flocking_cohesion_radius>							\
 			<destination_weight>									\
 			<random_seed>										\
-			\
+	        <gl flag                                               \
+            \
 			\n", argv[0]);
 		exit(0);
 		return 1;
@@ -122,9 +124,9 @@ int simMain(int argc, char* argv[])
 
 
     char* pipeFile = nullptr;
-    if(argc==17)
+    if(argc==18)
     {
-    	pipeFile = argv[16];
+    	pipeFile = argv[17];
     	std::cout << "\nPipe File " << pipeFile << "\n";
     }
 
@@ -176,7 +178,7 @@ void drawRegion(float x, float y,float z,float radius,float r,float g, float b)
 void drawFish(float x, float y,float z,float orient,float r,float g, float b)
 {
 	glTranslatef(x,y,z);
-	float scale=6;
+	float scale=1;
     glRotatef(orient-90,0,0,1); //180_ to fix counter clockwise. fish point up Y at orientation 0 so _90
 
     // draw a triangle (in smooth coloring mode)
@@ -274,8 +276,8 @@ void DrawGLScene()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Clear The Screen And The Depth Buffer
     glLoadIdentity();				// Reset The View
 
-    glTranslated(-500,-500,0);  //Reposition Camera
-    float zDepth = -1200;
+    glTranslated(-100,-100,0);  //Reposition Camera
+    float zDepth = -250;
     double cosTheta;
     double sinTheta;
 
@@ -323,24 +325,28 @@ void DrawGLScene()
         			sinTheta = sin(boids[i].orient);
         			if(boids[i].hitObstacle) {
         				drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+1,boids[i].orient,1,0,0);
-        				myString = std::to_string(count) + " " + std::to_string(i) + " " + std::to_string(boids[i].loc.x) + " " + std::to_string(boids[i].loc.y) + " " + std::to_string(-sinTheta) + " " + std::to_string(0) + " " + std::to_string(sinTheta) + " " + std::to_string(cosTheta) + " " + std::to_string(0) + " " + std::to_string(0) + " " + std::to_string(1) + " " + "$$";
+        		//		if (gl == false)
+                            myString = std::to_string(count) + " " + std::to_string(i) + " " + std::to_string(boids[i].loc.x) + " " + std::to_string(boids[i].loc.y) + " " + std::to_string(-sinTheta) + " " + std::to_string(0) + " " + std::to_string(sinTheta) + " " + std::to_string(cosTheta) + " " + std::to_string(0) + " " + std::to_string(0) + " " + std::to_string(1) + " " + "$$";
                         // positionFile << count << " " << i << " " << boids[i].loc.x << " " << boids[i].loc.y<< " " << cosTheta << " " << -sinTheta << " " << '0' << sinTheta << " " << cosTheta << '0' << " " << '0' << '0' << '1' << " true \n"; //hit = true
         			} else {
                     	//TODO change for testing hit
         				drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+1,boids[i].orient,0,0.5,1);
-        				myString = std::to_string(count) + " " + std::to_string(i) + " " + std::to_string(boids[i].loc.x) + " " + std::to_string(boids[i].loc.y) + " " + std::to_string(-sinTheta) + " " + std::to_string(0) + " " + std::to_string(sinTheta) + " " + std::to_string(cosTheta) + " " + std::to_string(0) + " " + std::to_string(0) + " " + std::to_string(1) + " " + "$$";
+        		//		if (gl == false)
+                            myString = std::to_string(count) + " " + std::to_string(i) + " " + std::to_string(boids[i].loc.x) + " " + std::to_string(boids[i].loc.y) + " " + std::to_string(-sinTheta) + " " + std::to_string(0) + " " + std::to_string(sinTheta) + " " + std::to_string(cosTheta) + " " + std::to_string(0) + " " + std::to_string(0) + " " + std::to_string(1) + " " + "$$";
                         // positionFile << count << " " << i << " " << boids[i].loc.x << " " << boids[i].loc.y<< " " << cosTheta << " " << -sinTheta << " " << '0' << sinTheta << " " << cosTheta << '0' << " " << '0' << '0' << '1' << " false \n"; //hit = true
         			}
         		} else {
         			drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+1,boids[i].orient,0,1,0);
-        				myString = std::to_string(count) + " " + std::to_string(i) + " " + std::to_string(boids[i].loc.x) + " " + std::to_string(boids[i].loc.y) + " " + std::to_string(-sinTheta) + " " + std::to_string(0) + " " + std::to_string(sinTheta) + " " + std::to_string(cosTheta) + " " + std::to_string(0) + " " + std::to_string(0) + " " + std::to_string(1) + " " + "$$";
+        		//		if (gl == false)
+                            myString = std::to_string(count) + " " + std::to_string(i) + " " + std::to_string(boids[i].loc.x) + " " + std::to_string(boids[i].loc.y) + " " + std::to_string(-sinTheta) + " " + std::to_string(0) + " " + std::to_string(sinTheta) + " " + std::to_string(cosTheta) + " " + std::to_string(0) + " " + std::to_string(0) + " " + std::to_string(1) + " " + "$$";
                         // positionFile << count << " " << i << " " << boids[i].loc.x << " " << boids[i].loc.y<< " " << cosTheta << " " << -sinTheta << " " << '0' << sinTheta << " " << cosTheta << '0' << " " << '0' << '0' << '1' << " false \n"; //hit = true
         		}
                 //while ((read = getline(&data, &len, in)) != -1){
                 //printf("Sending: %s\n", myString.c_str());   
-        		if( send(sockfd , myString.c_str(), strlen(myString.c_str()),0 )<0) {
-        			cout<<"Send failed";
-        		}
+                //if (gl == false)
+        		  if((gl == 0) && ( send(sockfd , myString.c_str(), strlen(myString.c_str()),0 )<0)) {
+        			 cout<<"Send failed";
+        		  }
         		glPopMatrix();
         	}
         	count++;
@@ -382,6 +388,9 @@ int main(int argc, char **argv)
 	positionFile.open("Position.txt");
 	XInitThreads();
     std::thread simThread(simMain,argc,argv); // Start the sim thread
+    gl = atoi(argv[16]);
+    printf("argv %s\n", argv[15]);
+    printf("printing gl! %d\n", gl);
 
 
     /* Initialize GLUT state _ glut will take any command line arguments that pertain to it or
@@ -405,7 +414,10 @@ int main(int argc, char **argv)
     window = glutCreateWindow("DWA Hacks Test Viewer");
 
     /*call socket initialization functions*/
-    initSocket();
+    if (gl == 0){
+        printf("Initializing socket\n");
+        initSocket();
+    }
     
     /* Register the function to do all our OpenGL drawing. */
     glutDisplayFunc(&DrawGLScene);
