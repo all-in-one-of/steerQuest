@@ -1,5 +1,5 @@
 all:
-	g++ display.cpp Boid.cpp Flocking.cpp Simulation.cpp PathFinder.cpp MapLoader.cpp -std=c++0x -D__LINUX_COMPILE -g -o flock-solve -lopenvdb -lHalf -ltbb -lGL -lglut -lGLU -lpthread -lX11
+	g++ display.cpp Boid.cpp Flocking.cpp Simulation.cpp PathFinder.cpp MapLoader.cpp dynamic.cpp -std=c++0x -D__LINUX_COMPILE -g -o flock-solve -lopenvdb -lHalf -ltbb -lGL -lglut -lGLU -lpthread -lX11
 
 vdb_map_converter:
 	g++ convertVDBtoMAP.cpp -std=c++0x -D__LINUX_COMPILE -lopenvdb -lHalf -ltbb -o vdb_map_converter

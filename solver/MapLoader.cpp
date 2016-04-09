@@ -1,5 +1,5 @@
 #include "MapLoader.h"
-#include "Vector.h"
+    
 #include <cstring>
 #include <openvdb/openvdb.h>
 #include <stdlib.h>
@@ -79,8 +79,14 @@ MapLoader::loadVDBMap(char* filename)
     		openvdb::Coord pos(x,y,z_bound);
             grid_array[x][y] = accessor.getValue(pos);
             
-            if(grid_array[x][y]<=0)
-			mapData[x][y]=false;
+            if(grid_array[x][y]<=0) {
+			  mapData[x][y]=false;
+              //std::cout << x << "  " << y << std::endl;
+              //printf("#");
+            }
+            // else{
+            //     printf(".");
+            // }
 
 		//std::cout<<"Grid array "<<grid_array[x][y]<<"\n";
     }

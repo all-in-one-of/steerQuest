@@ -1,10 +1,11 @@
 #include "Simulation.h"
 #include <unistd.h>     // Header File for sleeping.
-
+#include "constants.h"
 
 using namespace math;
 
-
+Vec2f endP;
+unsigned int endR; 
 
 void
 Simulation::loadScene(char* mapFile)
@@ -16,6 +17,11 @@ Simulation::loadScene(char* mapFile)
 
 	startPosition = ml.getStartPosition();
 	endPosition = ml.getEndPosition();
+  endP = endPosition;
+  endR = ml.getEndRadius();
+  cout << "In simulation" << endl;
+  cout << "EndP: " << endP.x << " " << endP.y << endl;
+  cout << "EndR: " << endR << endl;
 
     x_bound = ml.getx_boundary();
     y_bound = ml.gety_boundary();
@@ -29,17 +35,18 @@ Simulation::loadScene(char* mapFile)
 	for(int y=0;y<y_bound;y++) {
         for(int x=0;x<x_bound;x++) {
             passData[y*x_bound + x] = data[x][y];
-            if(passData[y*x_bound + x]) {
-                //printf(".");
-            } else {
-                //printf("#");
-            }
+            // if(passData[y*x_bound + x]) {
+            //     printf(".");
+            // } else {
+            //     printf("#");
+            // }
         }
-        //printf("\n");
+        printf("\n");
     }
 
 	Grid<bool> mapData(x_bound, y_bound, passData);
 	mScene = new Scene(startPosition, endPosition, mapData , ml.getStartRadius(), ml.getEndRadius());
+
     mScene->setSDFhandle(ml.getSDF());
 
 	auto endTime = std::chrono::steady_clock::now();
