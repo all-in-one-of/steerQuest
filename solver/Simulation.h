@@ -21,8 +21,7 @@ class Simulation
 {
 public:
 	void loadScene(char* mapFile);
-	void init(char* pipeFile				,
-              	long 	msleepTime 			,
+	void init( 	long 	msleepTime 			,
               	int 	mfishCount 			,
               	int 	mboundaryPadding 	,
               	float 	mmaxSpeed 			,
@@ -51,10 +50,6 @@ public:
     }
 
 private:
-
-	void openPipe(char* pipeFile);
-	void closePipe();
-    bool bWriteToPipe = false;
 
     Flocking flock;
 	Scene* mScene;

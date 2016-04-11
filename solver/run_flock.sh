@@ -17,4 +17,4 @@
 
 
 
-./flock-solve maps/scene3_meta.vdb 10000 10 5 0.5 0.1 1.5 2 1 18 20 20 20 1 123 
+./flock-solve maps/scene3_meta.vdb 10000 15 5 0.5 0.1 1.5 2 1 18 20 20 20 1 123 2
