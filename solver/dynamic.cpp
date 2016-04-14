@@ -196,7 +196,7 @@ bool colDetect(Boid b){
 		float cx = obstacles[i].x;
 		float cy = obstacles[i].y;
 		float r  = obstacles[i].z;
-		// cout <<"Obs: "<< cx<<" " << " "<<cy << " "<<r<<endl;
+		//cout <<"Obs: "<< cx<<" " << " "<<cy << " "<<r<<endl;
 		if (pow((cx-x),2) + pow((cy-y),2) <= pow(r,2) ){
 			cout << "Hole hit"<<endl;
 			return true;

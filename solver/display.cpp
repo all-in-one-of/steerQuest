@@ -26,25 +26,9 @@
 /* The number of our GLUT window */
 int window;
 
+
 Flocking* flockDisplay; 
 Scene* sceneDisplay;
-char data[4096];
-int sockfd, portno, n;
-struct sockaddr_in serv_addr;
-struct hostent *server;
-char buffer[256];
-char *message;
-int count = 0;
-bool flag = false;
-std::fstream fd;
-int level;
-
-void error(const char* msg)
-{
-    perror(msg);
-    exit(0);
-}
-
 
 int simMain(int argc, char* argv[])
 {
@@ -90,7 +74,7 @@ int simMain(int argc, char* argv[])
 
 
 
-
+    level                       = stoi(clevel);
     long sleepTime              = stoi(sleep_time);
     int fishCount               = stoi(fish_count);
     int boundaryPadding         = stoi(boundary_padding);
@@ -105,25 +89,26 @@ int simMain(int argc, char* argv[])
     float flockCohRadius        = stof(flocking_cohesion_radius);
     float destWeight            = stof(destination_weight);
     int randSeed                = stoi(random_seed);
-    level                       = stoi(clevel);
-    cout << "Sim Main" << level<<endl;
+    
+    cout << "Sim Main " << level<<endl;
 
 
     Simulation simulation;
     simulation.loadScene(mapFile);
     simulation.init(sleepTime,
-        fishCount,boundaryPadding,
-        maxSpeed,maxForce,
-        flockSepWeight,
-        flockAliWeight,
-        flockCohWeight,
-        collisionWeight,
-        flockSepRadius,
-        flockAliRadius,
-        flockCohRadius,
-        destWeight,
-        randSeed
-        );
+                    fishCount,boundaryPadding,
+                    maxSpeed,maxForce,
+                    flockSepWeight,
+                    flockAliWeight,
+                    flockCohWeight,
+                    collisionWeight,
+                    flockSepRadius,
+                    flockAliRadius,
+                    flockCohRadius,
+                    destWeight,
+                    randSeed
+                    );  
+    cout <<"Before run"<<endl;
 
     flockDisplay = simulation.getFlockHandle();
     sceneDisplay = simulation.getSceneHandle();
@@ -186,27 +171,6 @@ void drawCell(float x, float y,float z,float r,float g, float b)
     glEnd();
 }
 
-void initSocket()
-{
-    //Socket
-    portno = 8010;
-    server = gethostbyname("localhost");
-    std::cout << server << std::endl;
-    //cout << server->
-    if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host\n");
-        exit(0);
-    }
-    bzero((char *) &serv_addr, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr,server->h_length);
-    serv_addr.sin_port = htons(portno);
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) 
-        error("ERROR opening socket");
-    if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
-        error("ERROR connecting"); 
-}
 
 
 /* A general OpenGL initialization function.  Sets all of the initial parameters. */
@@ -245,7 +209,7 @@ void ReSizeGLScene(int Width, int Height)
 
 //To delete
 void drawCircle(float x, float y, float r){
-
+    
     glPushMatrix();
     glTranslatef(x,y,-1198.0);
     glColor3f(0.0, 0.0, 0.0);
@@ -274,15 +238,12 @@ void drawObstacle(){
     /*else
         dynamic_done = 0;   */
 
-    }
-
-
+}
 
 
 /* The main drawing function. */
-    void DrawGLScene()
-    {   
-        std::string myString;
+void DrawGLScene()
+{   
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // Clear The Screen And The Depth Buffer
     glLoadIdentity();               // Reset The View
     //cout << "Level"<<level ;
@@ -295,17 +256,7 @@ void drawObstacle(){
 
     // Draw the dynamic objects
     drawObstacle();
-    for(int i = 0; i < obstacles.size();i++) {
-        myString = "DO "
-        + std::to_string(i + 1) + " "
-        + std::to_string(obstacles[i].x) + " "
-        + std::to_string(obstacles[i].y) + " "
-        + std::to_string(obstacles[i].z) + "$$";
-        if( send(sockfd , myString.c_str(), strlen(myString.c_str()), 0 ) < 0) {
-                    //cout<<"Send failed";
-        }
 
-    }
     if(sceneDisplay) {
         Vec2i bounds = sceneDisplay->getBounds();
         //Start
@@ -334,70 +285,59 @@ void drawObstacle(){
             vector<Boid>& boids = flockDisplay->boids;
             //flag = d.detectDynamicCollision(boids);
             for(int i =0; i< boids.size() ; i++) {
+                std::string myString;
                 glPushMatrix();
                 if(!boids[i].reachedDestination ) {
                     orientRadian = (boids[i].orient - 180) * 3.14 / 180.0;
                     if(boids[i].hitObstacle) {
                         drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+1,boids[i].orient,1,0,0);
-                        myString = "Boid "
-                        + std::to_string(count) + " " 
-                        + std::to_string(i) + " " 
-                        + std::to_string(boids[i].loc.x) + " "
-                        + std::to_string(boids[i].loc.y) + " "
-                        + std::to_string(orientRadian) + " "
-                        + "false" + "$$";
-
+                        // myString = std::to_string(count) + " " 
+                        //          + std::to_string(i) + " " 
+                        //          + std::to_string(boids[i].loc.x) + " "
+                        //          + std::to_string(boids[i].loc.y) + " "
+                        //          + std::to_string(orientRadian) + " "
+                        //          + "true" + "$$";
+                                 
                     } 
                     else {                                           
                         drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+1,boids[i].orient,0,0.5,1);
                         //drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+1,boids[i].orient,cr,cg,cb);
-                        myString = "Boid "
-                        + std::to_string(count) + " " 
-                        + std::to_string(i) + " " 
-                        + std::to_string(boids[i].loc.x) + " "
-                        + std::to_string(boids[i].loc.y) + " "
-                        + std::to_string(orientRadian) + " "
-                        + "false" + "$$";
+                        // myString = std::to_string(count) + " " 
+                        //          + std::to_string(i) + " " 
+                        //          + std::to_string(boids[i].loc.x) + " "
+                        //          + std::to_string(boids[i].loc.y) + " "
+                        //          + std::to_string(orientRadian) + " "
+                        //          + "false" + "$$";
 
                     }
                 } 
                 else {
-
+                    
                     drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+1,boids[i].orient,0,1,0);
-                    myString = "Boid "
-                    + std::to_string(count) + " " 
-                    + std::to_string(i) + " " 
-                    + std::to_string(boids[i].loc.x) + " "
-                    + std::to_string(boids[i].loc.y) + " "
-                    + std::to_string(orientRadian) + " "
-                    + "true" + "$$";
-                    std::cout << "Sheep "<< std::to_string(i) <<" has reached the destination" << std::endl;
-                }
-
-                if( send(sockfd , myString.c_str(), strlen(myString.c_str()),0 )<0) {
-                    //cout<<"Send failed";
+                    // myString = std::to_string(count) + " " 
+                    //              + std::to_string(i) + " " 
+                    //              + std::to_string(boids[i].loc.x) + " "
+                    //              + std::to_string(boids[i].loc.y) + " "
+                    //              + std::to_string(orientRadian) + " "
+                    //              + "true" + "$$";
                 }
                 //Hidden
                 if(colDetect(boids[i])){
-                    cout << "Boid " << i << "hit" << endl;
-                    myString = "Hit "
-                    + std::to_string(i) + "$$";
-                    if( send(sockfd , myString.c_str(), strlen(myString.c_str()),0 )<0) {
-                    //cout<<"Send failed";
-                    }
-
+                    cout <<"Boid "<<i<< "hit" << endl;
                     drawFish(boids[i].loc.x,boids[i].loc.y,zDepth+2,boids[i].orient,1,0,0);
                 }
 
-                glPopMatrix();
+/*                if( send(sockfd , myString.c_str(), strlen(myString.c_str()),0 )<0) {
+                    //cout<<"Send failed";
+                }
+*/                glPopMatrix();
             }
             count++;
         }
     }
 
     obstacles.clear();
-    fd.flush();
-
+    
 
     // we need to swap the buffer to display our drawing.
     glutSwapBuffers();
@@ -425,17 +365,23 @@ void keyPressed(unsigned char key, int x, int y)
 
 int main(int argc, char **argv)
 {
-
-
-
     flockDisplay=NULL;
     sceneDisplay=NULL;
 
-    std::thread simThread(simMain,argc,argv); // Start the sim thread
+    level = 2;
+    levelHandler(level);
     
+    if (DEBUG != 1){
+      simMain(argc,argv); // Start the sim thread       
+         while(true){
 
-    /* Initialize GLUT state _ glut will take any command line arguments that pertain to it or
-       X Windows _ look at its documentation at http://reality.sgi.com/mjk/spec3/spec3.html */
+         }
+
+    }
+
+    // GL CODE goes here
+    else{
+    std::thread simThread(simMain,argc,argv); // Start the sim thread
     glutInit(&argc, argv);
     //objPath = generatePath(Vec3f(0,0,0), Vec3f(1000,1000,0));
 
@@ -456,13 +402,7 @@ int main(int argc, char **argv)
     glutInitWindowPosition(0, 0);
 
     /* Open a window */
-    window = glutCreateWindow("DWA Hacks Test Viewer");
-
-    /*call socket initialization functions*/
-    initSocket();
-
-    /* Register the function to do all our OpenGL drawing. */
-    levelHandler(level);
+    window = glutCreateWindow("ABAI FEST Viewer");
     glutDisplayFunc(&DrawGLScene);
     //glutDisplayFunc(&tmp);
 
@@ -484,6 +424,23 @@ int main(int argc, char **argv)
     /* Start Event Processing Engine */
     glutMainLoop();
 
-    return 1;
+
+    }
+    
+
+    /* Initialize GLUT state _ glut will take any command line arguments that pertain to it or
+       X Windows _ look at its documentation at http://reality.sgi.com/mjk/spec3/spec3.html */
+    
+
+    /*call socket initialization functions*/
+    //initSocket();
+
+    /* Register the function to do all our OpenGL drawing. */
+   
+    
+    return 0;
 }
+
+
+
 

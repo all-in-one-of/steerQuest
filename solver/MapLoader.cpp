@@ -9,7 +9,8 @@ using namespace std;
 
 bool**
 MapLoader::loadVDBMap(char* filename)
-{
+{   
+    cout << "in LoadVDB" << filename<< endl;
 	openvdb::initialize();
 
 	// Create a VDB file object.
