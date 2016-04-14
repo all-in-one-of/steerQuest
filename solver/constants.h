@@ -15,7 +15,7 @@ extern int diag_size;
 extern int diag_done;
 extern int box_size;
 extern int box_done;
-//Coming from display.cpp
+//Coming from main.cpp
 extern int level;
 extern int count;
 //extern vector<Vec3f> dynamicObstacles;

@@ -17,4 +17,4 @@
 
 
 
-./flock-solve maps/scene1.vdb 5000 20 10 1 0.05 1.5 0.5 1 15 30 40 50 0.5 123 2
+./flock-solve maps/scene1.vdb 2

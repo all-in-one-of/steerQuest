@@ -230,20 +230,7 @@ Simulation::frame()
 
 
 void
-Simulation::init(long	msleepTime 			,
-                  int 	mfishCount 			,
-                  int 	mboundaryPadding 	,
-                  float 	mmaxSpeed 			,
-                  float 	mmaxForce 			,
-                  float 	mflockSepWeight 	,
-                  float 	mflockAliWeight 	,
-                  float 	mflockCohWeight 	,
-                  float 	mcollisionWeight 	,
-                  float 	mflockSepRadius 	,
-                  float 	mflockAliRadius 	,
-                  float 	mflockCohRadius 	,
-                  float 	mdestWeight 		,
-                  int 	mrandSeed 			)
+Simulation::init()
 
 {
   cout << "In Simulation Init" << endl;
@@ -251,20 +238,20 @@ Simulation::init(long	msleepTime 			,
 	auto endTime = std::chrono::steady_clock::now();
 
 
-      sleepTime			= msleepTime		;
-      fishCount 			= mfishCount 		;
-      boundaryPadding 	= mboundaryPadding	;
-      maxSpeed 			= mmaxSpeed 		;
-      maxForce 			= mmaxForce 		;
-      flockSepWeight 		= mflockSepWeight 	;
-      flockAliWeight 		= mflockAliWeight 	;
-      flockCohWeight 		= mflockCohWeight 	;
-      collisionWeight 	= mcollisionWeight	;
-      flockSepRadius 		= mflockSepRadius 	;	
-      flockAliRadius 		= mflockAliRadius 	;
-      flockCohRadius 		= mflockCohRadius 	;
-      destWeight 			= mdestWeight 		;
-      randSeed 			= mrandSeed 		;
+      // sleepTime			= msleepTime		;
+      // fishCount 			= mfishCount 		;
+      // boundaryPadding 	= mboundaryPadding	;
+      // maxSpeed 			= mmaxSpeed 		;
+      // maxForce 			= mmaxForce 		;
+      // flockSepWeight 		= mflockSepWeight 	;
+      // flockAliWeight 		= mflockAliWeight 	;
+      // flockCohWeight 		= mflockCohWeight 	;
+      // collisionWeight 	= mcollisionWeight	;
+      // flockSepRadius 		= mflockSepRadius 	;	
+      // flockAliRadius 		= mflockAliRadius 	;
+      // flockCohRadius 		= mflockCohRadius 	;
+      // destWeight 			= mdestWeight 		;
+      // randSeed 			= mrandSeed 		;
 	
 
 	startPositionRadius=mScene->getStartRadius();
@@ -276,8 +263,18 @@ Simulation::init(long	msleepTime 			,
     int startPosMaxY = min((int)(startPosition.y+startPositionRadius),(int)y_bound);
 
 
-    flock
-    .setBounds(x_bound,y_bound);
+    flock.setBounds(x_bound,y_bound);
+    //Assign appropriate values to these, or get them from command line:
+    boundaryPadding = 0;
+    maxForce  = 0;
+    flockSepWeight = 0;  
+    flockAliWeight = 0;
+    flockCohWeight = 0;
+    collisionWeight = 0;
+    flockSepRadius = 0;
+    flockAliRadius = 0;
+    flockCohRadius = 0;
+    destWeight = 0;
 
     flock.setSimulationParameters(boundaryPadding	,
       			maxSpeed 		,
@@ -352,8 +349,8 @@ Flocking* Simulation::getFlockHandle()
         return &flock;
 }
 
-Scene* Simulation::getSceneHandle()
-{
-        return mScene;
-}
+// Scene* Simulation::getSceneHandle()
+// {
+//         return mScene;
+// }
 

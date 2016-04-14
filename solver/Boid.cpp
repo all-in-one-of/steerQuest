@@ -52,39 +52,39 @@ void Boid::update(vector<Boid> &boids) {
 }
 
 void Boid::seek(Vec2f target,float weight) {
-    acc += steer(target)*weight;
+    //acc += steer(target)*weight;
 }
 
 void Boid::avoid(Vec2f target,float weight) {
-    acc -= steer(target)*weight;
+    //acc -= steer(target)*weight;
 }
 
 void Boid::boundCheck(int padding) {
 
-    if(loc.x>endCorner.x-padding)
-    {
-        loc.x=endCorner.x-padding;
-        vel.x=-vel.x;
+    // if(loc.x>endCorner.x-padding)
+    // {
+    //     loc.x=endCorner.x-padding;
+    //     vel.x=-vel.x;
 
-    }
+    // }
 
-    else if(loc.x<0+padding)
-     {
-         loc.x=0+padding;
-         vel.x=-vel.x;
-     }
+    // else if(loc.x<0+padding)
+    //  {
+    //      loc.x=0+padding;
+    //      vel.x=-vel.x;
+    //  }
 
-    if(loc.y>endCorner.y-padding)
-    {
-        loc.y=endCorner.y-padding;
-        vel.y=-vel.y;
-    }
+    // if(loc.y>endCorner.y-padding)
+    // {
+    //     loc.y=endCorner.y-padding;
+    //     vel.y=-vel.y;
+    // }
 
-    else if(loc.y<0+padding)
-    {
-        loc.y=0+padding;
-        vel.y=-vel.y;
-    }
+    // else if(loc.y<0+padding)
+    // {
+    //     loc.y=0+padding;
+    //     vel.y=-vel.y;
+    // }
 
 
 }
@@ -92,26 +92,26 @@ void Boid::boundCheck(int padding) {
 
 // A method that calculates a steering vector towards a target
 Vec2f Boid::steer(Vec2f target) {
-    Vec2f steer;  // The steering vector
-    Vec2f desired = target - loc;  // A vector pointing from the location to the target
+ //    Vec2f steer;  // The steering vector
+ //    Vec2f desired = target - loc;  // A vector pointing from the location to the target
 
-	float d = target.distance(loc); // Distance from the target is the magnitude of the vector
+	// float d = target.distance(loc); // Distance from the target is the magnitude of the vector
 
 
-	// If the distance is greater than 0, calc steering (otherwise return zero vector)
-    if (d > 0) {
+	// // If the distance is greater than 0, calc steering (otherwise return zero vector)
+ //    if (d > 0) {
 
-		desired /= d; // Normalize desired
+	// 	desired /= d; // Normalize desired
 
-		desired *= maxSpeed;
+	// 	desired *= maxSpeed;
 
-		// Steering = Desired minus Velocity
-		steer = desired - vel;
-		steer.x = clamp(steer.x, -maxForce, maxForce); // Limit to maximum steering force
-		steer.y = clamp(steer.y, -maxForce, maxForce);
+	// 	// Steering = Desired minus Velocity
+	// 	steer = desired - vel;
+	// 	steer.x = clamp(steer.x, -maxForce, maxForce); // Limit to maximum steering force
+	// 	steer.y = clamp(steer.y, -maxForce, maxForce);
 
-    }
-    return steer;
+ //    }
+ //    return steer;
 }
 
 
@@ -144,98 +144,98 @@ bool Boid::isHit(int x, int y, int radius) {
 // Separation
 // Method checks for nearby boids and steers away
 Vec2f Boid::separate(vector<Boid> &boids) {
-    float desiredseparation = flockSepRadius;
-    Vec2f steer;
-    int count = 0;
+ //    float desiredseparation = flockSepRadius;
+ //    Vec2f steer;
+ //    int count = 0;
 
-    // For every boid in the system, check if it's too close
-    for (int i = 0 ; i < boids.size(); i++) {
-		Boid &other = boids[i];
+ //    // For every boid in the system, check if it's too close
+ //    for (int i = 0 ; i < boids.size(); i++) {
+	// 	Boid &other = boids[i];
 
-		float d = loc.distance(other.loc);
+	// 	float d = loc.distance(other.loc);
 
-		// If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
-		if ((d > 0) && (d < desiredseparation)) {
-			// Calculate vector pointing away from neighbor
-			Vec2f diff = loc - other.loc;
-			diff /= d;			// normalize
-			diff /= d;        // Weight by distance
-			steer += diff;
-			count++;            // Keep track of how many
-		}
-    }
-    // Average -- divide by how many
-    if (count > 0) {
-		steer /= (float)count;
-    }
+	// 	// If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
+	// 	if ((d > 0) && (d < desiredseparation)) {
+	// 		// Calculate vector pointing away from neighbor
+	// 		Vec2f diff = loc - other.loc;
+	// 		diff /= d;			// normalize
+	// 		diff /= d;        // Weight by distance
+	// 		steer += diff;
+	// 		count++;            // Keep track of how many
+	// 	}
+ //    }
+ //    // Average -- divide by how many
+ //    if (count > 0) {
+	// 	steer /= (float)count;
+ //    }
 
 
-    // As long as the vector is greater than 0
-	//float mag = sqrt(steer.x*steer.x + steer.y*steer.y);
+ //    // As long as the vector is greater than 0
+	// //float mag = sqrt(steer.x*steer.x + steer.y*steer.y);
 
-	float mag = steer.length();
-    if (mag > 0) {
-		// Implement Reynolds: Steering = Desired - Velocity
-		steer /= mag;
-		steer *= maxSpeed;
-		steer -= vel;
-		steer.x = clamp(steer.x, -maxForce, maxForce);
-		steer.y = clamp(steer.y, -maxForce, maxForce);
-    }
-    return steer;
+	// float mag = steer.length();
+ //    if (mag > 0) {
+	// 	// Implement Reynolds: Steering = Desired - Velocity
+	// 	steer /= mag;
+	// 	steer *= maxSpeed;
+	// 	steer -= vel;
+	// 	steer.x = clamp(steer.x, -maxForce, maxForce);
+	// 	steer.y = clamp(steer.y, -maxForce, maxForce);
+ //    }
+ //    return steer;
 }
 
 // Alignment
 // For every nearby boid in the system, calculate the average velocity
 Vec2f Boid::align(vector<Boid> &boids) {
-    float neighbordist = flockAliRadius;
-    Vec2f steer;
-    int count = 0;
-    for (int i = 0 ; i < boids.size(); i++) {
-		Boid &other = boids[i];
+ //    float neighbordist = flockAliRadius;
+ //    Vec2f steer;
+ //    int count = 0;
+ //    for (int i = 0 ; i < boids.size(); i++) {
+	// 	Boid &other = boids[i];
 
-		float d = loc.distance(other.loc);
-		if ((d > 0) && (d < neighbordist)) {
-			steer += (other.vel);
-			count++;
-		}
-    }
-    if (count > 0) {
-		steer /= (float)count;
-    }
+	// 	float d = loc.distance(other.loc);
+	// 	if ((d > 0) && (d < neighbordist)) {
+	// 		steer += (other.vel);
+	// 		count++;
+	// 	}
+ //    }
+ //    if (count > 0) {
+	// 	steer /= (float)count;
+ //    }
 
-    // As long as the vector is greater than 0
-	float mag = steer.length();
-    if (mag > 0) {
-		// Implement Reynolds: Steering = Desired - Velocity
-		steer /= mag;
-		steer *= maxSpeed;
-		steer -= vel;
-		steer.x = clamp(steer.x, -maxForce, maxForce);
-		steer.y = clamp(steer.y, -maxForce, maxForce);
-    }
-    return steer;
+ //    // As long as the vector is greater than 0
+	// float mag = steer.length();
+ //    if (mag > 0) {
+	// 	// Implement Reynolds: Steering = Desired - Velocity
+	// 	steer /= mag;
+	// 	steer *= maxSpeed;
+	// 	steer -= vel;
+	// 	steer.x = clamp(steer.x, -maxForce, maxForce);
+	// 	steer.y = clamp(steer.y, -maxForce, maxForce);
+ //    }
+ //    return steer;
 }
 
 // Cohesion
 // For the average location (i.e. center) of all nearby boids, calculate steering vector towards that location
 Vec2f Boid::cohesion(vector<Boid> &boids) {
-    float neighbordist = flockCohRadius;
-    Vec2f sum;   // Start with empty vector to accumulate all locations
-    int count = 0;
-    for (int i = 0 ; i < boids.size(); i++) {
-		Boid &other = boids[i];
-		float d = loc.distance(other.loc);
-		if ((d > 0) && (d < neighbordist)) {
-			sum += other.loc; // Add location
-			count++;
-		}
-    }
-    if (count > 0) {
-		sum /= (float)count;
-		return steer(sum);  // Steer towards the location
-    }
-    return sum;
+  //   float neighbordist = flockCohRadius;
+  //   Vec2f sum;   // Start with empty vector to accumulate all locations
+  //   int count = 0;
+  //   for (int i = 0 ; i < boids.size(); i++) {
+		// Boid &other = boids[i];
+		// float d = loc.distance(other.loc);
+		// if ((d > 0) && (d < neighbordist)) {
+		// 	sum += other.loc; // Add location
+		// 	count++;
+		// }
+  //   }
+  //   if (count > 0) {
+		// sum /= (float)count;
+		// return steer(sum);  // Steer towards the location
+  //   }
+  //   return sum;
 }
 
 

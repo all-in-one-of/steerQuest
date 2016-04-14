@@ -21,20 +21,7 @@ class Simulation
 {
 public:
 	void loadScene(char* mapFile);
-	void init( 	long 	msleepTime 			,
-              	int 	mfishCount 			,
-              	int 	mboundaryPadding 	,
-              	float 	mmaxSpeed 			,
-              	float 	mmaxForce 			,
-           		float 	mflockSepWeight 	,
-           		float 	mflockAliWeight 	,
-           		float 	mflockCohWeight 	,
-           		float 	mcollisionWeight 	,
-           		float 	mflockSepRadius 	,
-           		float 	mflockAliRadius 	,
-           		float 	mflockCohRadius 	,
-           		float 	mdestWeight 		,
-           		int 	mrandSeed 			);
+	void init();
 
 	bool frame();
 	void run();
@@ -67,7 +54,7 @@ private:
 	float startPositionRadius;
 	float endPositionRadius;
 
-	//init variables
+	//init variables, you can change this as required
 	long sleepTime			;
   	int fishCount 			;
   	int boundaryPadding 	;
